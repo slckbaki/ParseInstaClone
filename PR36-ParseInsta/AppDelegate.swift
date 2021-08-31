@@ -6,6 +6,9 @@
 //
 
 import UIKit
+import Parse
+import OneSignal
+
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -14,6 +17,27 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
+        
+        
+        let configuration = ParseClientConfiguration { ParseMutableClientConfiguration in
+            ParseMutableClientConfiguration.applicationId = "oMkJ2Sald8U9PYqwWndmkKVmGp47dp0payKtC5eP"
+            ParseMutableClientConfiguration.clientKey = "XwXM6njcYgetnXQxsCQSOvOl6c5arlC7elzQGPSE"
+            ParseMutableClientConfiguration.server = "https://parseapi.back4app.com/"
+            
+        }
+        Parse.initialize(with: configuration)
+        let defaultACL = PFACL()
+        defaultACL.hasPublicReadAccess = true
+        defaultACL.hasPublicWriteAccess = true
+        PFACL.setDefault(defaultACL, withAccessForCurrentUser: true)
+        
+        
+        
+        OneSignal.initWithLaunchOptions(launchOptions)
+          OneSignal.setAppId("a56b40bb-124a-4190-9f23-41409eac3024")
+        OneSignal.promptForPushNotifications(userResponse: { accepted in
+          print("User accepted notifications: \(accepted)")
+        })
         return true
     }
 
@@ -30,7 +54,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // If any sessions were discarded while the application was not running, this will be called shortly after application:didFinishLaunchingWithOptions.
         // Use this method to release any resources that were specific to the discarded scenes, as they will not return.
     }
-
+    
 
 }
 
